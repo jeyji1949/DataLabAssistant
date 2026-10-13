@@ -36,3 +36,6 @@ def fastest_strain(table):
     summary = summary_table(table)
     best_row = summary["max_growth_rate"].idxmax()
     return summary.loc[best_row, "strain"]
+def all_average_curves(table):
+    curves = table.groupby(["time_h", "strain"])["od600"].mean()
+    return curves.unstack("strain")

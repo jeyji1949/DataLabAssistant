@@ -1,6 +1,6 @@
 import pandas as pd
 import pytest
-from src.analysis import max_growth_rate, fastest_strain
+from src.analysis import max_growth_rate, fastest_strain, all_average_curves
 
 
 # A tiny table: strain_a grows by 1.0 per hour at best, strain_b by only 0.2
@@ -25,3 +25,10 @@ def test_max_growth_rate():
 def test_fastest_strain():
     table = make_small_table()
     assert fastest_strain(table) == "strain_a"
+
+def test_all_average_curves_has_one_column_per_strain():
+    table = make_small_table()
+    curves = all_average_curves(table)
+
+    assert list(curves.columns) == ["strain_a", "strain_b"]
+    assert curves.loc[1.0, "strain_a"] == pytest.approx(1.0)
